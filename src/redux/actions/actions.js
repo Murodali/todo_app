@@ -41,15 +41,29 @@ const  todoDoDelete =() => ({
     type:types.DELETE_TODO
 })
 
+const userToDelete =() => ({
+    type:types.DELETE_USER
+})
+
 export const deleteTodo = (id) => {
     return function(dispatch){
         axios.delete(`http://localhost:5000/todos/${id}`).
         then((res) => {
             dispatch(todoDoDelete());
             console.log(res, "deleted sucessfully ")
-            dispatch(loadUsers())
+            dispatch(loadTodos())
         }).catch(err => {
             console.log(err,"Not deleted")
+        })
+
+
+        axios.delete(`http://localhost:8000/users/${id}`)
+        .then((res) => {
+            dispatch(userToDelete())
+            console.log(res, "user deleted")
+            dispatch(loadUsers())
+        }).catch(err => {
+            console.log(err,"user not deleted")
         })
     }
 }

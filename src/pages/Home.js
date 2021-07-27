@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteTodo, loadTodos, loadUsers } from "../redux/actions/actions";
 import {ButtonGroup,Button} from '@material-ui/core';
-
+import {useHistory} from 'react-router-dom'
 
 const useButtonStyles = makeStyles((theme) => ({
     root: {
@@ -66,8 +66,6 @@ function Home() {
     return acc;
   }, {});
 
-
-
   const handleDelete = (id) => {
 
     if(window.confirm("Are you sure?")){
@@ -76,15 +74,20 @@ function Home() {
 
   }
 
+  let history = useHistory();
+
   return (
     <div className="home">
       <h1>This is a sample Todo Task. Number of total todos {todos.length}</h1>
+      <div className={buttonStyles.root}>
+        <Button variant="contained" color="primary" onClick={ () => history.push('/addTodo')}>Add todo</Button>
+      </div>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Status</StyledTableCell>
-              <StyledTableCell align="center">Name</StyledTableCell>
+              <StyledTableCell align="center">Name</StyledTableCell>     
               <StyledTableCell align="center">Todo</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
@@ -93,7 +96,8 @@ function Home() {
             {todos &&
               todos.map((todo) => {
 
-                const user = usersById[todo.id];
+                const user = usersById[todo.userId];
+           
            
                 return (
                   <StyledTableRow key={todo.id}>
@@ -101,7 +105,7 @@ function Home() {
                       {todo.completed ? "Completed" : "Ongoing"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {user.name}{" "}
+                      {/* {user.name}{" "} */}
                     </StyledTableCell>
 
                     <StyledTableCell align="center">
