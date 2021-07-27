@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -56,12 +56,14 @@ function Home() {
   const { todos } = useSelector((state) => state.todos);
   const dispatch = useDispatch();
 
+
+
   useEffect(() => {
     dispatch(loadUsers());
     dispatch(loadTodos());
   }, []);
 
-  const usersById = users.reduce((acc, curr) => {
+  const usersById = users && users.reduce((acc, curr) => {
     acc[curr.id] = curr;
     return acc;
   }, {});
@@ -87,16 +89,16 @@ function Home() {
           <TableHead>
             <TableRow>
               <StyledTableCell>Status</StyledTableCell>
-              <StyledTableCell align="center">Name</StyledTableCell>     
-              <StyledTableCell align="center">Todo</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
+              <StyledTableCell align="center" >Name</StyledTableCell>     
+              <StyledTableCell align="center" >Todo</StyledTableCell>
+              <StyledTableCell align="center" >Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {todos &&
               todos.map((todo) => {
 
-                const user = usersById[todo.userId];
+                const user = usersById[todo.id];
            
            
                 return (
@@ -105,7 +107,7 @@ function Home() {
                       {todo.completed ? "Completed" : "Ongoing"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {/* {user.name}{" "} */}
+                      {user.name}{" "}
                     </StyledTableCell>
 
                     <StyledTableCell align="center">

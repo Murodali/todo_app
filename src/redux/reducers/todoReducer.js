@@ -24,6 +24,12 @@ const todoReducer = (state = initialState, action) => {
                 loading:false
             }
 
+            case types.ADD_TODO:
+                return {
+                    ...state,
+                    loading:false
+                }
+
         default:
             return state;
     }

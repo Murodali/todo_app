@@ -67,3 +67,42 @@ export const deleteTodo = (id) => {
         })
     }
 }
+
+
+const  addUser =() => ({
+    type:types.ADD_USER
+})
+
+const addTodo =() => ({
+    type:types.ADD_TODO
+})
+
+
+
+export const addingTodo = (todo) => {
+    return function(dispatch){
+        axios.post(`http://localhost:5000/todos/`,todo).
+        then((res) => {
+            dispatch(addTodo());
+            console.log(res, "added sucessfully ")
+            dispatch(loadTodos())
+        }).catch(err => {
+            console.log(err,"Not added")
+        })
+
+    }
+}
+
+export const addingUser  = (user) => {
+    return function(dispatch){
+        axios.post(`http://localhost:8000/users/`,user).
+        then((res) => {
+            dispatch(addUser());
+            console.log(res, "added sucessfully ")
+            dispatch(loadUsers())
+        }).catch(err => {
+            console.log(err,"Not added")
+        })
+
+    }
+}
