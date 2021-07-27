@@ -113,7 +113,7 @@ function Home() {
                       {todo.completed ? "Completed" : "Ongoing"}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {user.name}{" "}
+                      {user && user.name}{" "}
                     </StyledTableCell>
 
                     <StyledTableCell align="center">

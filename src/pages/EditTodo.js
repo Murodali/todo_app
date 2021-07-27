@@ -11,8 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 
-
-
 const GreenCheckbox = withStyles({
     root: {
       color: green[400],
@@ -24,37 +22,26 @@ const GreenCheckbox = withStyles({
   })((props) => <Checkbox color="default" {...props} />);
 
 
-
 function EditTodo() {
-
-
-//   const [completed, setCompleted] = useState(true);
-
-  const [todoItem, setTodoItem] = useState("");
-
   const dispatch = useDispatch();
-
   let {id} = useParams();
 
 
 const {user} = useSelector( state => state.users);
 const { todo } = useSelector( state => state.todos);
 
-const [checked, setChecked] = useState(false);
-
-
 useEffect(() => {
     if(todo){
-    //    setName(todo.name)
-       setTodoItem(todo.title)
-       setChecked(todo.completed)
+       setName(user && user.name)
+       setTodoItem( user && todo.title)
+       setChecked( todo && todo.completed)
     
     }
   }, [])
 
-console.log(user)
-console.log(todo)
+useEffect(() => {
 
+}, [user])
 
 
   useEffect(() => {
@@ -64,55 +51,72 @@ console.log(todo)
 
   const [err, setErr] = useState();
 
-  const [completed, setCompleted] = useState(false);
-  const [name, setName] = useState("");
+
+  const [name, setName] = useState(user && user.name || "");
+  const [todoItem, setTodoItem] = useState(todo && todo.title || "");
+  const [checked, setChecked] = useState(todo && todo.completed || false);
 
 
-  const data ={
-    title:todo,
-    completed: completed,
+
+  const todoData = {
+    title:todoItem,
+    completed: checked,
  
   }
 
   const userdata ={
     name: name,
-  
+  }
+
+  const handleNameChange = (e) => {
+      setName(e.target.value)
+      console.log(name)
+  }
+
+  const handleChangeTodo = (e) => {
+      setTodoItem(e.target.value)
+      console.log(todoItem)
+  }
+
+  const handleChecked = (e) => {
+
+    setChecked(e.target.checked)
+    console.log(checked)
+
   }
 
 
-
+  const history = useHistory();
 
   const handleSubmit = e => {
     e.preventDefault();
     if(!name || !todo){
       setErr("Please provide all the details")
     }else{
-        dispatch(updateTodo(data,todo.id));
+        dispatch(updateTodo(todoData,todo.id));
+        console.log(todoData, todo.id)
         dispatch(updateUser(userdata,user.id));
+        console.log(userdata, user.id)
     
         setErr("");
-        // history.push('/')
-        
+        history.push('/')
     }
-
-  
   }
-
 
 
   return (
     <div className="edit_user">
       <h1>Change the todo Iteam if you wish</h1>
 
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <div style={{ marginTop: "20px" }}>
           <TextField
             id="standard-basic"
             label="Name"
             style={{ width: "45ch" }}
-            value={user.name || ""}
+            value={name || ""}
             type="text"
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleNameChange}
         
           />
         </div>
@@ -122,18 +126,18 @@ console.log(todo)
             id="standard-multiline-static"
             label="To do"
             multiline
-            value={todo && todo.title || ""}
+            value={todoItem || ""}
             rows={4}
             style={{ width: "45ch" }}
-            onChange={(e) => setTodoItem(e.target.value)}
+            onChange={handleChangeTodo}
           />
         </div>
 
         <div className="completed">
             <h2>Completed</h2>
             <GreenCheckbox
-                    checked={checked || false }
-                    onChange={(e) => setChecked(e.target.checked)}
+                    checked={checked || ""}
+                    onChange={handleChecked}
                     inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
         </div>
@@ -143,7 +147,6 @@ console.log(todo)
           color="primary"
           style={{ marginTop: "20px" }}
           onClick={handleSubmit}
-        
         >
           Edit 
         </Button>
