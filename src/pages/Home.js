@@ -1,99 +1,134 @@
-import React,{useEffect} from 'react'
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { useSelector,useDispatch } from 'react-redux';
-import { loadTodos, loadUsers } from '../redux/actions/actions';
+import React, { useEffect } from "react";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteTodo, loadTodos, loadUsers } from "../redux/actions/actions";
+import {ButtonGroup,Button} from '@material-ui/core';
 
 
+const useButtonStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+  }));
 
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
     },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
-  
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-  
-  const useStyles = makeStyles({
-    table: {
-      marginTop:100,
-      minWidth: 900,
-    },
-  });
-  
+  },
+}))(TableRow);
+
+const useStyles = makeStyles({
+  table: {
+    marginTop: 50,
+    minWidth: 900,
+  },
+});
 
 function Home() {
-    const classes = useStyles();
+  const classes = useStyles();
+  const buttonStyles = useButtonStyles();
+  const { users } = useSelector((state) => state.users);
+  const { todos } = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUsers());
+    dispatch(loadTodos());
+  }, []);
 
-    useEffect(() => {
+  const usersById = users.reduce((acc, curr) => {
+    acc[curr.id] = curr;
+    return acc;
+  }, {});
 
-        dispatch(loadUsers())
-        dispatch(loadTodos())
 
-    }, [])
 
-    return (
-        <div className="home">
-            <h1>This is a sample Todo Task</h1>
-             <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Status</StyledTableCell>
-            <StyledTableCell align="center">Name</StyledTableCell>
-            <StyledTableCell align="center">Todo</StyledTableCell>
-     
-          </TableRow>
-        </TableHead>
-        {/* <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody> */}
-      </Table>
-    </TableContainer>
-            
-        </div>
-    )
+  const handleDelete = (id) => {
+
+    if(window.confirm("Are you sure?")){
+        dispatch(deleteTodo(id))
+    }
+
+  }
+
+  return (
+    <div className="home">
+      <h1>This is a sample Todo Task # of{todos.length}</h1>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Status</StyledTableCell>
+              <StyledTableCell align="center">Name</StyledTableCell>
+              <StyledTableCell align="center">Todo</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {todos &&
+              todos.map((todo) => {
+
+                const user = usersById[todo.id];
+           
+                return (
+                  <StyledTableRow key={todo.id}>
+                    <StyledTableCell component="th" scope="user">
+                      {todo.completed ? "Completed" : "Ongoing"}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {user.name}{" "}
+                    </StyledTableCell>
+
+                    <StyledTableCell align="center">
+                      {" "}
+                      {todo.title}{" "}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                    <div className={buttonStyles.root}>
+                      <ButtonGroup
+                        variant="contained"
+                        color="primary"
+                        aria-label="contained primary button group"
+                      >
+                        <Button style={{marginRight: "5px" }}>Edit</Button>
+                        <Button color="secondary" onClick={() => handleDelete(todo.id)}>Delete</Button>
+                      
+                      </ButtonGroup>
+                      </div>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
 }
 
-export default Home
+export default Home;
