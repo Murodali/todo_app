@@ -19,15 +19,14 @@ export const  loadUsers = () => {
 
 }
 
-const getTodos =( todos) => ({
+const getTodos = (todos) => ({
     type: types.GET_TODOS,
-    payload: todos,
+    payload:todos,
 })
 
-export const loadTodos = () => {
+export const  loadTodos = () => {
     return function(dispatch){
-        axios.get('http://localhost:5000/todos'
-  ).
+        axios.get('http://localhost:5000/todos').
         then((res) => {
             console.log(res.data)
             dispatch(getTodos(res.data));
@@ -35,8 +34,8 @@ export const loadTodos = () => {
             console.log(err)
         })
     }
-}
 
+}
 const  todoDoDelete =() => ({
     type:types.DELETE_TODO
 })
@@ -104,5 +103,77 @@ export const addingUser  = (user) => {
             console.log(err,"Not added")
         })
 
+    }
+}
+
+
+const getTodo = (todo) => ({
+    type: types.GET_SINGLE_TODO,
+    payload: todo
+})
+
+
+
+export const getSingleTodo = (id) => {
+    return function(dispatch){
+        axios.get(`http://localhost:5000/todos/${id}`)
+        .then((res) => {
+            dispatch(getTodo(res.data))
+         
+        }).catch(err => {
+            console.log(err,"single Todo not loaded")
+        })
+    }
+}
+
+
+
+const getUser = (user) => ({
+    type: types.GET_SINGLE_USER,
+    payload: user
+})
+
+export const getSingleUser = (id) => {
+    return function(dispatch){
+        axios.get(`http://localhost:8000/users/${id}`)
+        .then((res) => {
+            dispatch(getUser(res.data))
+    
+        }).catch(err => {
+            console.log(err,"single user not loaded")
+        })
+    }
+}
+
+
+const userUpdate = () => ({
+    type: types.UPDATE_USER
+})
+
+export const updateUser = (user,id) => {
+    return function(dispatch){
+        axios.put(`http://localhost:8000/users/${id}`,user)
+        .then((res) => {
+            dispatch(userUpdate())
+
+        }).catch(err => {
+            console.log(err,"single user not loaded")
+        })
+    }
+}
+
+const todoUpdate = () => ({
+    type: types.UPDATE_TODO
+})
+
+export const updateTodo = (todo,id) => {
+    return function(dispatch){
+        axios.put(`http://localhost:5000/todos/${id}`,todo)
+        .then((res) => {
+            dispatch(todoUpdate())
+    
+        }).catch(err => {
+            console.log(err,"single user not loaded")
+        })
     }
 }

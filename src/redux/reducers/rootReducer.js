@@ -4,7 +4,9 @@ import todoReducer from "./todoReducer";
 
 const rootReducer = combineReducers({
     users: usersReducer,
-    todos: todoReducer
+    todos: todoReducer,
+    
+
 })
 
 

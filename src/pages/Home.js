@@ -12,6 +12,7 @@ import { deleteTodo, loadTodos, loadUsers } from "../redux/actions/actions";
 import {ButtonGroup,Button} from '@material-ui/core';
 import {useHistory} from 'react-router-dom'
 
+
 const useButtonStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -51,10 +52,13 @@ const useStyles = makeStyles({
 
 function Home() {
   const classes = useStyles();
+
   const buttonStyles = useButtonStyles();
+  
   const { users } = useSelector((state) => state.users);
-  const { todos } = useSelector((state) => state.todos);
+  const { todos }   = useSelector((state) => state.todos);
   const dispatch = useDispatch();
+
 
 
 
@@ -62,6 +66,10 @@ function Home() {
     dispatch(loadUsers());
     dispatch(loadTodos());
   }, []);
+
+  
+  console.log(users)
+  console.log(todos)
 
   const usersById = users && users.reduce((acc, curr) => {
     acc[curr.id] = curr;
@@ -99,8 +107,6 @@ function Home() {
               todos.map((todo) => {
 
                 const user = usersById[todo.id];
-           
-           
                 return (
                   <StyledTableRow key={todo.id}>
                     <StyledTableCell component="th" scope="user">
@@ -121,7 +127,7 @@ function Home() {
                         color="primary"
                         aria-label="contained primary button group"
                       >
-                        <Button style={{marginRight: "5px" }}>Edit</Button>
+                        <Button style={{marginRight: "5px" }} onClick={() => history.push(`/editTodo/${todo.id}`)}>Edit</Button>
                         <Button color="secondary" onClick={() => handleDelete(todo.id)}>Delete</Button>
                       
                       </ButtonGroup>
