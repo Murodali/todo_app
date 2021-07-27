@@ -33,8 +33,26 @@ function EditTodo() {
     dispatch(getSingleUser(id));
   }, []);
 
+
+
   const { user } = useSelector((state) => state.users);
   const { todo } = useSelector((state) => state.todos);
+
+
+  useEffect(() => {
+    if(user){
+        setName(user.name)
+    }
+  }, [user])
+
+  useEffect(() => {
+
+    if(todo){
+        setTodoItem(todo.title)
+        setChecked(todo.completed)
+    }
+
+  }, [todo])
 
   const [err, setErr] = useState();
 
