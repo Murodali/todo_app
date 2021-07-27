@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,6 +7,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { useSelector,useDispatch } from 'react-redux';
+import { loadTodos, loadUsers } from '../redux/actions/actions';
+
+
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -48,6 +53,15 @@ const StyledTableCell = withStyles((theme) => ({
 
 function Home() {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        dispatch(loadUsers())
+        dispatch(loadTodos())
+
+    }, [])
 
     return (
         <div className="home">

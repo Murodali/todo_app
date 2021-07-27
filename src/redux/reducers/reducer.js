@@ -1,4 +1,4 @@
-
+import * as types from '../actions/actionTypes';
 
 const initialState = {
     users:[],
@@ -10,6 +10,30 @@ const initialState = {
 
 const usersReducer = (state = initialState, action) => {
     switch(action.type){
+
+        case types.GET_USERS:
+            return{
+                ...state,
+                users: action.payload,
+                loading:false
+            }
+
+        default:
+            return state;
+    }
+}
+
+
+const todoReducer = (state = initialState, action) => {
+    switch(action.type){
+
+        case types.GET_USERS:
+            return{
+                ...state,
+                todos: action.payload,
+                loading:false
+            }
+
         default:
             return state;
     }
@@ -17,4 +41,5 @@ const usersReducer = (state = initialState, action) => {
 
 
 
-export default usersReducer;
+
+export default todoReducer;
