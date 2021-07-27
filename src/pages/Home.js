@@ -78,7 +78,7 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>This is a sample Todo Task # of{todos.length}</h1>
+      <h1>This is a sample Todo Task. Number of total todos {todos.length}</h1>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
