@@ -7,18 +7,12 @@ import { addingTodo, addingUser } from "../redux/actions/actions";
 import {useHistory} from 'react-router-dom'
 
 
-
-
-
 function AddToDo() {
 
-
   const [err, setErr] = useState();
-
   const [completed, setCompleted] = useState(false);
   const [name, setName] = useState("");
   const [todo, setTodo] = useState("");
-
   const data ={
     title:todo,
     completed: completed,
@@ -29,7 +23,6 @@ function AddToDo() {
     name: name,
   
   }
-
 
   const history = useHistory();
   const dispatch = useDispatch()
@@ -46,8 +39,6 @@ function AddToDo() {
         history.push('/')
         
     }
-
-  
   }
 
   return (
@@ -88,8 +79,6 @@ function AddToDo() {
             defaultValue="All todos are not completed by default"
             default={completed?"":"All todos are not compelted by defaul"}
             onChange={(e) => setCompleted(completed)}
-  
-
           />
         </div>
 

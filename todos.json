@@ -76,6 +76,11 @@
       "title": "Hey just checking if everything works properly",
       "completed": false,
       "id": 15
+    },
+    {
+      "title": "The game of life and how to play it!",
+      "completed": true,
+      "id": 16
     }
   ]
 }

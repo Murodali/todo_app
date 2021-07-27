@@ -119,6 +119,7 @@ export const getSingleTodo = (id) => {
         axios.get(`http://localhost:5000/todos/${id}`)
         .then((res) => {
             dispatch(getTodo(res.data))
+            // console.log(res.data)
          
         }).catch(err => {
             console.log(err,"single Todo not loaded")
@@ -138,6 +139,7 @@ export const getSingleUser = (id) => {
         axios.get(`http://localhost:8000/users/${id}`)
         .then((res) => {
             dispatch(getUser(res.data))
+            // console.log(res.data)
     
         }).catch(err => {
             console.log(err,"single user not loaded")
@@ -155,6 +157,7 @@ export const updateUser = (user,id) => {
         axios.put(`http://localhost:8000/users/${id}`,user)
         .then((res) => {
             dispatch(userUpdate())
+           
 
         }).catch(err => {
             console.log(err,"single user not loaded")
