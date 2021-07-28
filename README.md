@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Please to ### `yarn install` to install all the necessary packages
 
-Then run ### `yarn server_todos` and ### `yarn server_users` to get the json servers running
+Then run  `yarn server_todos` and  `yarn server_users` to get the json servers running
 
 That's it run the app!
 
