@@ -80,8 +80,7 @@ function Home() {
     dispatch(loadTodos());
   }, []);
 
-  console.log(users);
-  console.log(todos);
+
 
   const usersById =
     users &&
@@ -100,17 +99,6 @@ function Home() {
   let history = useHistory();
 
   const [searchItem, setSearchItem] = useState("");
-  const [check, setCheck] = useState(false);
-  const [ all, setAll] = useState(true)
-
-
-  const handleCheck = (e) => {
-    setCheck(e.target.checked);
-  };
-
-  const handleAll = (e) => {
-    setAll(e.target.checked)
-  }
 
 
   return (
@@ -130,23 +118,6 @@ function Home() {
 
       <div className=" row_area"> 
 
-      <div className="completed"> 
-        <h2>See All</h2>
-        <GreenCheckbox
-          inputProps={{ "aria-label": "primary checkbox" }}
-          onChange={handleAll}
-          checked={all}
-        />
-      </div>
-
-      <div className="completed">
-        <h2>Completed</h2>
-        <GreenCheckbox
-          inputProps={{ "aria-label": "primary checkbox" }}
-          onChange={handleCheck}
-          checked={check}
-        />
-      </div>
 
 
       <TextField
@@ -176,16 +147,7 @@ function Home() {
                 .filter((todo) => {
                   const user = usersById[todo.id];
 
-                  if(all) {
-                    return todo
-                  }
-
-
-                  else if (todo.completed == !check) {
-                    console.log(todo);
-               
-                  } 
-                  else if (searchItem === "") {
+                 if (searchItem === "") {
                     return todo;
                   } 
                   else if (
@@ -194,7 +156,7 @@ function Home() {
                       .includes(searchItem.toLocaleLowerCase()) ||
                     user.name
                       .toLocaleLowerCase()
-                      .includes(searchItem.toLocaleLowerCase())
+                      .includes(searchItem.toLocaleLowerCase()) 
                   ) {
                     return todo;
                   }
