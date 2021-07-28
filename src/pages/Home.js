@@ -11,6 +11,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteTodo, loadTodos, loadUsers } from "../redux/actions/actions";
 import {ButtonGroup,Button} from '@material-ui/core';
 import {useHistory} from 'react-router-dom'
+import TextField from '@material-ui/core/TextField';
+import Checkbox from "@material-ui/core/Checkbox";
+import { green } from "@material-ui/core/colors";
+
+
+const GreenCheckbox = withStyles({
+  root: {
+    color: green[400],
+    "&$checked": {
+      color: green[600],
+    },
+  },
+  checked: {},
+})((props) => <Checkbox color="default" {...props} />);
 
 
 const useButtonStyles = makeStyles((theme) => ({
@@ -86,12 +100,25 @@ function Home() {
 
   let history = useHistory();
 
+  const [searchItem, setSearchItem] = useState("");
+  const [check, setCheck] = useState();
+
   return (
     <div className="home">
       <h1>This is a sample Todo Task. Number of total todos {todos.length}</h1>
       <div className={buttonStyles.root}>
         <Button variant="contained" color="primary" onClick={ () => history.push('/addTodo')}>Add todo</Button>
       </div>
+
+      <TextField id="outlined-search" label="Search by todo or name or by status" type="search" variant="outlined" style={{width:"50ch", marginTop: "20px"}} onChange={(e) => setSearchItem(e.target.value)} />
+      {/* <div className="completed">
+          <h2>Completed</h2>
+          <GreenCheckbox
+
+            inputProps={{ "aria-label": "primary checkbox" }}
+            onChange = {(e) =>setCheck(e.target.checked)}
+          />
+          </div> */}
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
@@ -104,7 +131,25 @@ function Home() {
           </TableHead>
           <TableBody>
             {todos &&
-              todos.map((todo) => {
+              todos.filter((todo) => {
+         
+                const user = usersById[todo.id];
+                if(searchItem === ""){
+                  return todo
+                }else if( todo.title.toLocaleLowerCase().includes(searchItem.toLocaleLowerCase()) 
+                || user.name.toLocaleLowerCase().includes(searchItem.toLocaleLowerCase())
+              
+
+                ){
+                  return todo
+                }
+                // else if(todo.completed? "Completed" : "Ongoing"){
+                //    todo.completed.toLocaleLowerCase().includes(searchItem.toLocaleLowerCase())
+                //   return todo
+                // }
+
+             
+              }).map((todo) => {
 
                 const user = usersById[todo.id];
                 return (

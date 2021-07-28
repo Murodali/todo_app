@@ -79,7 +79,7 @@
     },
     {
       "title": "The game of life and how to play it!",
-      "completed": true,
+      "completed": false,
       "id": 16
     }
   ]
