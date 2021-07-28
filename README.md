@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+
+## To get Started
+
+Please to ### `yarn install` to install all the necessary packages
+
+Then run ### `yarn server_todos` and ### `yarn server_users` to get the json servers running
+
+That's it run the app!
+
+### `yarn start`
+
 ## Available Scripts
 
 In the project directory, you can run:
