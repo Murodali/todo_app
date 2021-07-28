@@ -8,6 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useSelector, useDispatch } from "react-redux";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {
   deleteTodo,
   getSingleTodo,
@@ -19,6 +20,9 @@ import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import { green } from "@material-ui/core/colors";
+
+
+
 
 const GreenCheckbox = withStyles({
   root: {
@@ -98,7 +102,24 @@ function Home() {
 
   let history = useHistory();
 
-  const [searchItem, setSearchItem] = useState("");
+  const [ searchItem, setSearchItem] = useState("");
+  const [ allSelected, setAllselected] = useState(true)
+  const [ filter, setFilter] = useState(false)
+  
+
+  const handleAllSelected = (e) => {
+    setAllselected(e.target.checked)
+    console.log(allSelected)
+
+  }
+
+  const handleFilter = (e) => {
+    setFilter(e.target.checked)
+    console.log(filter)
+
+  }
+
+
 
 
   return (
@@ -118,6 +139,17 @@ function Home() {
 
       <div className=" row_area"> 
 
+      <div className="completed"> 
+      <p>All todos</p>
+      <GreenCheckbox checked={allSelected} 
+      onChange={handleAllSelected}  />
+       </div>
+
+       <div className="completed"> 
+      <p>Only Completed</p>
+      <GreenCheckbox checked={filter} 
+      onChange={handleFilter}  />
+       </div>
 
 
       <TextField
@@ -147,19 +179,35 @@ function Home() {
                 .filter((todo) => {
                   const user = usersById[todo.id];
 
-                 if (searchItem === "") {
-                    return todo;
-                  } 
-                  else if (
-                    todo.title
-                      .toLocaleLowerCase()
-                      .includes(searchItem.toLocaleLowerCase()) ||
-                    user.name
-                      .toLocaleLowerCase()
-                      .includes(searchItem.toLocaleLowerCase()) 
-                  ) {
-                    return todo;
+
+                  if(allSelected || filter == todo.completed ){
+
+                    if (searchItem === "" ||   todo.title
+                    .toLocaleLowerCase()
+                    .includes(searchItem.toLocaleLowerCase()) ||
+                  user.name
+                    .toLocaleLowerCase()
+                    .includes(searchItem.toLocaleLowerCase()) ) {
+                      
+                      return todo;
+                    } 
                   }
+
+
+
+
+                  // else{
+                  //   return todo
+                  // }
+
+
+
+
+                //   else if (!allSelected && filter == todo.completed){
+                //     return todo => todo.completed == filter
+                //   }
+
+             
                 })
                 .map((todo) => {
                   const user = usersById[todo.id];

@@ -10,7 +10,7 @@ export const  loadUsers = () => {
     return function(dispatch){
         axios.get('http://localhost:8000/users').
         then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             dispatch(getUsers(res.data));
         }).catch(err => {
             console.log(err)
@@ -28,7 +28,7 @@ export const  loadTodos = () => {
     return function(dispatch){
         axios.get('http://localhost:5000/todos').
         then((res) => {
-            console.log(res.data)
+            // console.log(res.data)
             dispatch(getTodos(res.data));
         }).catch(err => {
             console.log(err)
