@@ -1,8 +1,8 @@
 {
   "todos": [
     {
-      "title": "The subtle art of not giving a fuck!",
-      "completed": true,
+      "title": "The subtle art of not giving a fuck! This is a great book!",
+      "completed": false,
       "id": 2
     },
     {
@@ -81,6 +81,11 @@
       "title": "The game of life and how to play it!",
       "completed": false,
       "id": 16
+    },
+    {
+      "title": "Hey man. Fixing up the final bugs",
+      "completed": false,
+      "id": 17
     }
   ]
 }

@@ -77,8 +77,8 @@ function AddToDo() {
             label="Completed"
             style={{ width: "45ch" }}
             defaultValue="All todos are not completed by default"
-            default={completed?"":"All todos are not compelted by defaul"}
-            onChange={(e) => setCompleted(completed)}
+            disabled
+
           />
         </div>
 
