@@ -44,3 +44,11 @@
   align-items: center;
   justify-content: center;
 }
+
+.row_area{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+
+}
