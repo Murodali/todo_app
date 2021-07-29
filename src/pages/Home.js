@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useSelector, useDispatch } from "react-redux";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import {
   deleteTodo,
   getSingleTodo,
@@ -20,9 +20,6 @@ import { useHistory } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import { green } from "@material-ui/core/colors";
-
-
-
 
 const GreenCheckbox = withStyles({
   root: {
@@ -84,8 +81,6 @@ function Home() {
     dispatch(loadTodos());
   }, []);
 
-
-
   const usersById =
     users &&
     users.reduce((acc, curr) => {
@@ -99,28 +94,28 @@ function Home() {
     }
   };
 
-
   let history = useHistory();
 
-  const [ searchItem, setSearchItem] = useState("");
-  const [ allSelected, setAllselected] = useState(true)
-  const [ filter, setFilter] = useState(false)
-  
+  const [searchItem, setSearchItem] = useState("");
+  const [allSelected, setAllselected] = useState(true);
+  const [filter, setFilter] = useState(false);
+  const [todoNumber, setTodoNumber] = useState(0);
 
   const handleAllSelected = (e) => {
-    setAllselected(e.target.checked)
-    console.log(allSelected)
-
-  }
+    setAllselected(e.target.checked);
+    console.log(allSelected);
+  
+  };
 
   const handleFilter = (e) => {
-    setFilter(e.target.checked)
-    console.log(filter)
+    setFilter(e.target.checked);
+    console.log(filter);
+   
+  };
 
-  }
 
 
-
+  const [arr, setArr] = useState([]);
 
   return (
     <div className="home">
@@ -135,33 +130,26 @@ function Home() {
           Add todo
         </Button>
       </div>
-      
 
-      <div className=" row_area"> 
+      <div className=" row_area">
+        <div className="completed">
+          <p>All todos</p>
+          <GreenCheckbox checked={allSelected} onChange={handleAllSelected}  />
+        </div>
 
-      <div className="completed"> 
-      <p>All todos</p>
-      <GreenCheckbox checked={allSelected} 
-      onChange={handleAllSelected}  />
-       </div>
+        <div className="completed">
+          <p>Only Completed</p>
+          <GreenCheckbox checked={filter} onChange={handleFilter}  />
+        </div>
 
-       <div className="completed"> 
-      <p>Only Completed</p>
-      <GreenCheckbox checked={filter} 
-      onChange={handleFilter}  />
-       </div>
-
-
-      <TextField
-        id="outlined-search"
-        label="Search by todo or name"
-        type="search"
-        variant="outlined"
-        style={{ width: "50ch", marginTop: "20px" }}
-        onChange={(e) => setSearchItem(e.target.value)}
-      />
-
-
+        <TextField
+          id="outlined-search"
+          label="Search by todo or name"
+          type="search"
+          variant="outlined"
+          style={{ width: "50ch", marginTop: "20px" }}
+          onChange={(e) => setSearchItem(e.target.value)}
+        />
       </div>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
@@ -177,37 +165,28 @@ function Home() {
             {todos &&
               todos
                 .filter((todo) => {
-                  const user = usersById[todo.id];
-
-
-                  if(allSelected || filter == todo.completed ){
-
-                    if (searchItem === "" ||   todo.title
-                    .toLocaleLowerCase()
-                    .includes(searchItem.toLocaleLowerCase()) ||
-                  user.name
-                    .toLocaleLowerCase()
-                    .includes(searchItem.toLocaleLowerCase()) ) {
-                      
-                      return todo;
-                    } 
+                  
+                  if(allSelected){
+                    return todo
                   }
 
+                  else if ( filter == todo.completed){
+                    return todo
+                  }
+                })
+                .filter(todo => {
+                  const user = usersById[todo.id];
 
-
-
-                  // else{
-                  //   return todo
-                  // }
-
-
-
-
-                //   else if (!allSelected && filter == todo.completed){
-                //     return todo => todo.completed == filter
-                //   }
-
-             
+                  if(                 
+                         searchItem === "" ||
+                      todo.title
+                        .toLocaleLowerCase()
+                        .includes(searchItem.toLocaleLowerCase()) ||
+                      user.name
+                        .toLocaleLowerCase()
+                        .includes(searchItem.toLocaleLowerCase())){
+                        return todo
+                  }
                 })
                 .map((todo) => {
                   const user = usersById[todo.id];
