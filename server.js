@@ -15,12 +15,12 @@ server.use(jsonServer.rewriter({
 
 server.use(userRouter);
 server.listen(PORTUSERS, () => {
-    console.log("Users server is listening");
+    console.log(`Users server is listening ${PORTUSERS}`);
 })
 
 server.use(todoRouter);
 server.listen(PORTTODOS, () => {
-    console.log("Todos server is listening");
+    console.log("Todos server is listening",PORTTODOS);
 })
 
 
